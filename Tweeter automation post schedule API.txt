@@ -1,0 +1,50 @@
+import tweepy
+import os
+import schedule
+import time
+API_Key =  "oTLbjyJ9pI2Z99treBEx4hFZl"
+API_Secret_Key =  "ugiMLCbEFWbbiJ0nvqsgkl5mBdSjLr0oB8NMJzKdh8Y8hF2OWP"
+Access_Token = "1722589624856432640-u4k0rbFbpmZfAmVY9qhfcus5NWP0Fj"
+Access_Secret_Token = "7sKbekr3EZZoAtaAlbOmP9NthKYKUPEyntBKUUaAM6Vj7"
+Bearer_Token = "AAAAAAAAAAAAAAAAAAAAAN9mrQEAAAAAzpsFz56ukrOyoWXw%2FySUUL5%2B8Mk%3DttMXU5AaGdz1fNjpBi5rhzaVaXgDyIBihIWewnI0hAV9APWUZQ"
+client = tweepy.Client(Bearer_Token,API_Key, API_Secret_Key, Access_Token, Access_Secret_Token)
+
+
+def post_to_twitter():
+    """
+    Authenticates with Twitter API and creates a Tweepy API object.
+    Uploads media and creates a tweet using Twitter API v2.
+    Deletes media file after posting (optional).
+    """
+    # Authenticate and create a Tweepy API object
+    auth = tweepy.OAuth1UserHandler(API_Key, API_Secret_Key, Access_Token,Access_Secret_Token)
+    #auth1 = tweepy.OAuth2UserHandler(Bearer_Token)
+    api = tweepy.API(auth)
+    #api1 = tweepy.API(auth1)
+
+    # Upload media and create tweet using Twitter API v2
+    print("siema")
+
+    media = api.media_upload('hustle1.jpg')
+    print(media)
+    client.create_tweet(text="Hustle", media_ids=[media.media_id])
+    #client.like(1722978441895547220)
+
+    # Delete media file after posting (optional)
+    #os.remove('image1.jpg')
+
+
+
+post_to_twitter()
+
+
+# Set the date and time for the tweet
+tweet_date = '10:42'
+
+# Schedule the tweet at the specified date and time
+schedule.every().day.at(tweet_date).do(post_to_twitter)
+
+# Keep running the script to check for scheduled tasks
+while True:
+    schedule.run_pending()
+    time.sleep(1) 
